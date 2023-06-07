@@ -67,13 +67,22 @@ while True:
             prediction1 = model1.predict([np.asarray(data_aux)])
 
             predicted_character1 = labels_dict1[int(prediction1[0])]
-
+            if x1<0 or x2>W or y1<0 or y2>H:
+                cv2.putText(frame, 'Keep Hand On Screen', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,0, 255), 3,
+                    cv2.LINE_AA)
+            elif (x2-x1)*(y2-y1)/(W*H) <0.05:
+                cv2.putText(frame, 'Move Forward', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 255), 3,
+                    cv2.LINE_AA)
+                
             cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-            cv2.putText(frame, predicted_character1, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
+            cv2.putText(frame, predicted_character1, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 3,
                         cv2.LINE_AA)
 
-        '''        
+                
         else:
+             cv2.putText(frame, 'One Hand Only Please', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2,
+                    cv2.LINE_AA)
+             '''
              x1 = int(min(x_) * W) - 10
              y1 = int(min(y_) * H) - 10
 
@@ -90,6 +99,8 @@ while True:
                         '''
     if cv2.waitKey(25) == ord('q'):
         break
+    cv2.putText(frame, 'Press Q to exit', (W-175, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2,
+                    cv2.LINE_AA)
     cv2.imshow('frame', frame)
     cv2.waitKey(1)
 
