@@ -47,3 +47,14 @@ a {
 a:hover {
     text-decoration: underline;
 }
+
+.image-box {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.image-box img {
+    max-width: 200px;
+    margin: 10px;
+}
