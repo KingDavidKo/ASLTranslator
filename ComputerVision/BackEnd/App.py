@@ -10,8 +10,8 @@ def home():
 def text_to_asl():
     if request.method == 'POST':
         message = request.form['message']
-        # Perform translation logic here
-        # Example: Pass the 'message' variable to your translation function
+        asl_lists = textToList(message)
+        return render_template('text_to_asl.html', asl_lists=asl_lists)
 
     return render_template('text_to_asl.html')
 
@@ -19,5 +19,12 @@ def text_to_asl():
 def asl_to_text():
     return render_template('asl_to_text.html')
 
+def textToList(message):
+    # Perform processing logic here
+    # Example: Separate the message into lists
+    asl_lists = message.split(' ')
+    return asl_lists
+
 if __name__ == '__main__':
     app.run()
+
