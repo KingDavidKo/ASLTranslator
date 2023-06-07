@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASL Translator</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <header>
+        <h1>ASL Translator</h1>
+    </header>
+
+    <main>
+        <p>Direct to Translators.</p>
+        <div>
+            <a href="{{ url_for('text_to_asl') }}"><button>Text to ASL</button></a>
+            <a href="{{ url_for('asl_to_text') }}"><button>ASL to Text</button></a>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2023 Flask Website. All rights reserved.</p>
+    </footer>
+</body>
+</html>
