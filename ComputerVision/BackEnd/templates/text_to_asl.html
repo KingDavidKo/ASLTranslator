@@ -2,11 +2,19 @@
 <html>
 <head>
     <title>Text to ASL</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
-    <h2>Text to ASL</h2>
-    <!-- Add content specific to the Text to ASL page -->
+    <div class="container">
+        <h2>Text to ASL</h2>
 
-    <a href="{{ url_for('home') }}">Back to Main</a>
+        <form action="{{ url_for('text_to_asl') }}" method="POST">
+            <label for="message">Enter a message:</label>
+            <input type="text" id="message" name="message" required>
+            <button type="submit">Translate to ASL</button>
+        </form>
+
+        <a href="{{ url_for('home') }}">Back to Main</a>
+    </div>
 </body>
 </html>
