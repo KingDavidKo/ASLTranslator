@@ -28,11 +28,10 @@
 
         <div class="image-box">
             {% for image in asl_lists %}
-            <img src="{{ url_for('static', filename=image + '.jpg') }}" alt="{{ image }}">
+            <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
             {% endfor %}
         </div>
         {% endif %}
     </div>
 </body>
 </html>
-

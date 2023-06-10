@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-    <title>ASL to Text</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Live Streaming Demonstration</title>
 </head>
 <body>
-    <h2>ASL to Text</h2>
-    <!-- Add content specific to the ASL to Text page -->
-
+<div class="container">
+    <div class="row">
+        <div class="col-lg-8  offset-lg-2">
+            <h3 class="mt-5">Live Streaming</h3>
+            <img src="{{ url_for('video_feed') }}" width="100%">
+        </div>
+    </div>
+    
+</div>
+<div class="container">
     <a href="{{ url_for('home') }}">Back to Main</a>
+</div>
 </body>
 </html>
