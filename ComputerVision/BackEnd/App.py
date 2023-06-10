@@ -4,6 +4,7 @@ import os
 import cv2
 import mediapipe as mp
 import numpy as np
+import time
 
 app=Flask(__name__)
 
@@ -38,7 +39,7 @@ asl_mapping = {
 
 model_dict1 = pickle.load(open('./model1.p', 'rb'))
 model1 = model_dict1['model1']
-
+message1 = ''
 def gen_frames():  # generate frame by frame from camera
     
     cap = cv2.VideoCapture(0)
@@ -48,6 +49,8 @@ def gen_frames():  # generate frame by frame from camera
     mp_drawing_styles = mp.solutions.drawing_styles
 
     hands = mp_hands.Hands(static_image_mode=True, max_num_hands=2 ,min_detection_confidence=0.3)
+
+    
 
 
     labels_dict1 = {0: 'A', 1: 'B', 2: 'C',3: 'D', 4: 'E',5:'F',6: 'G', 7: 'H', 8: 'I',9: 'J', 10: 'K',11:'L',12: 'M', 13: 'N',14:'O',15: 'P', 16: 'Q', 17: 'R',18: 'S', 19: 'T',20:'U',21:'V',22:'W',23:'X',24:'Y',25:'Z'}
@@ -92,8 +95,16 @@ def gen_frames():  # generate frame by frame from camera
                 y2 = int(max(y_) * H) - 10
 
                 prediction1 = model1.predict([np.asarray(data_aux)])
-
                 predicted_character1 = labels_dict1[int(prediction1[0])]
+                percentage = list(model1.predict_proba([data_aux])[0])
+                percentage = max(percentage)*100
+                if percentage > 80:
+                    global message1
+                    message1 +=predicted_character1
+                    time.sleep(1)
+                    
+                
+
                 if x1<0 or x2>W or y1<0 or y2>H:
                     cv2.putText(frame, 'Keep Hand On Screen', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0,0, 255), 3,
                         cv2.LINE_AA)
@@ -102,7 +113,7 @@ def gen_frames():  # generate frame by frame from camera
                         cv2.LINE_AA)
                     
                 cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-                cv2.putText(frame, predicted_character1, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 3,
+                cv2.putText(frame, predicted_character1 + str(percentage), (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.2, (0, 0, 0), 3,
                             cv2.LINE_AA)
 
                     
@@ -118,11 +129,14 @@ def gen_frames():  # generate frame by frame from camera
 
 @app.route('/video_feed')
 def video_feed():
+
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/asl_to_text')
 def asl_to_text():
-    return render_template('asl_to_text.html')
+    print(message1)
+    message = message1
+    return render_template('asl_to_text.html',message=message)
 
 @app.route('/')
 def home():
