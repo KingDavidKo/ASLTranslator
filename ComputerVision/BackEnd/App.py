@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response,jsonify
 import pickle
 import os
 import cv2
@@ -98,10 +98,13 @@ def gen_frames():  # generate frame by frame from camera
                 predicted_character1 = labels_dict1[int(prediction1[0])]
                 percentage = list(model1.predict_proba([data_aux])[0])
                 percentage = max(percentage)*100
-                if percentage > 80:
+                if percentage > 60:
                     global message1
-                    message1 +=predicted_character1
-                    time.sleep(1)
+                    if message1:
+                        if message1[-1] != predicted_character1:
+                            message1 +=predicted_character1
+                    else:
+                        message1 += predicted_character1
                     
                 
 
@@ -120,6 +123,10 @@ def gen_frames():  # generate frame by frame from camera
             else:
                 cv2.putText(frame, 'One Hand Only Please', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2,
                         cv2.LINE_AA)
+        else:
+            if message1:
+                if message1[-1] != ' ':
+                    message1+= ' '
         #cv2.imshow('frame', frame)
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
@@ -134,13 +141,28 @@ def video_feed():
 
 @app.route('/asl_to_text')
 def asl_to_text():
-    print(message1)
-    message = message1
-    return render_template('asl_to_text.html',message=message)
+    return render_template('asl_to_text.html')
+
+@app.route('/get_dynamic_text')
+def get_dynamic_text():
+    # Logic to fetch the dynamic text from a data source
+    global message1
+
+    return message1
+@app.route('/refresh_component')
+def refresh_component():
+    global message1
+    return message1
+@app.route('/reset_variable', methods=['POST'])
+def reset_variable():
+    global message1
+    message1 = ""  # Reset the variable
+    return '', 204
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/text_to_asl', methods=['GET', 'POST'])
 def text_to_asl():
@@ -149,8 +171,6 @@ def text_to_asl():
         asl_lists = textToList(message)
         
         return render_template('text_to_asl.html', asl_lists=asl_lists)
-    app = Flask(__name__, static_folder='static')
-    print(app)
     return render_template('text_to_asl.html')
 
 

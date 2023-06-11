@@ -58,3 +58,27 @@ a:hover {
     max-width: 400px;
     margin: 10px;
 }
+.output-textbox {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    resize: vertical; /* Allow vertical resizing of the textbox */
+    text-align: center; /* Center-align the text */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.text-box {
+    width: 200px;
+    height: 100px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-family: Arial, sans-serif;
+    font-size: 18px;
+    text-align: center; /* Center-align the text */
+}

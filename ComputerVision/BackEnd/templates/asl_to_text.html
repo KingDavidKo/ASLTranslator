@@ -1,25 +1,57 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
     <title>Live Streaming Demonstration</title>
 </head>
-<body>
-<div class="container">
-    <div class="row">
-        <div class="col-lg-8  offset-lg-2">
-            <h3 class="mt-5">Live Streaming</h3>
-            <img src="{{ url_for('video_feed') }}" width="100%">
+    <body>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8  offset-lg-2">
+                    <h3 class="mt-5">Live Streaming</h3>
+                    <img src="{{ url_for('video_feed') }}" width="100%">
+                    
+                </div>
+            </div>
             
+
+            <h2>Translation: </h2>
+            
+            <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+            <script>
+                // Function to fetch dynamic text from Flask
+                function updateDynamicText() {
+                    $.ajax({
+                        url: '/get_dynamic_text',
+                        type: 'GET',
+                        success: function(data) {
+                            $('#message1').text(data);
+                        }
+                    });
+                }        
+                // Update dynamic text initially
+                updateDynamicText();
+        
+                // Update dynamic text every 5 seconds
+                setInterval(updateDynamicText, 1000);
+
+                function resetVariable() {
+                    $.ajax({
+                        url: '/reset_variable',
+                        type: 'POST',
+                        success: function() {
+                            console.log("Variable reset successfully.");
+                        }
+                    });
+                }
+            </script>           
+            <div class = "image-box">
+                <textarea id="message1" class="output-textbox" readonly></textarea>
+                <img src="{{ url_for('static', filename='asl.alpha.images/Alphabet.jpg') }}" class="image-box" alt="Image">
+            </div>
         </div>
-    </div>
-    
-</div>
-<h2>{{ message }}</h2>
-<div class="container">
-    
-    
-    <a href="{{ url_for('home') }}">Back to Main</a>
-</div>
-</body>
+        <div class="container">    
+            <a href="{{ url_for('home') }}" onclick="resetVariable()">Back to Main</a>
+        </div>
+    </body>
 </html>
