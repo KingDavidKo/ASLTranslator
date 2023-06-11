@@ -16,19 +16,19 @@
 
         <a href="{{ url_for('home') }}">Back to Main</a>
 
-        {% if asl_lists %}
+        {% if image_files %}
         <div class="result">
             <h3>ASL Lists:</h3>
             <ul>
-                {% for asl in asl_lists %}
-                <li>{{ asl }}</li>
+                {% for image_file in image_files %}
+                <li>{{ image_file }}</li>
                 {% endfor %}
             </ul>
         </div>
 
         <div class="image-box">
-            {% for image in asl_lists %}
-            <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
+            {% for image_file in image_files %}
+            <img src="{{ url_for('static', filename='images/'+image_file) }}" alt="Image">
             {% endfor %}
         </div>
         {% endif %}

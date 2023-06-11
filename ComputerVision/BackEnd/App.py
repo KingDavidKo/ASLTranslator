@@ -139,32 +139,33 @@ def asl_to_text():
     return render_template('asl_to_text.html',message=message)
 
 asl_mapping = {
-    'A': 'ComputerVision/BackEnd/static/asl.alpha.images/A.jpg',
-    'B': 'ComputerVision/BackEnd/static/asl.alpha.images/B.jpg',
-    'C': 'ComputerVision/BackEnd/static/asl.alpha.images/C.jpg',
-    'D': 'ComputerVision/BackEnd/static/asl.alpha.images/D.jpg',
-    'E': 'ComputerVision/BackEnd/static/asl.alpha.images/E.jpg',
-    'F': 'ComputerVision/BackEnd/static/asl.alpha.images/F.jpg',
-    'G': 'ComputerVision/BackEnd/static/asl.alpha.images/G.jpg',
-    'H': 'ComputerVision/BackEnd/static/asl.alpha.images/H.jpg',
-    'I': 'ComputerVision/BackEnd/static/asl.alpha.images/I.jpg',
-    'J': 'ComputerVision/BackEnd/static/asl.alpha.images/J.jpg',
-    'K': 'ComputerVision/BackEnd/static/asl.alpha.images/K.jpg',
-    'L': 'ComputerVision/BackEnd/static/asl.alpha.images/L.jpg',
-    'M': 'ComputerVision/BackEnd/static/asl.alpha.images/M.jpg',
-    'N': 'ComputerVision/BackEnd/static/asl.alpha.images/N.jpg',
-    'O': 'ComputerVision/BackEnd/static/asl.alpha.images/O.jpg',
-    'P': 'ComputerVision/BackEnd/static/asl.alpha.images/P.jpg',
-    'Q': 'ComputerVision/BackEnd/static/asl.alpha.images/Q.jpg',
-    'R': 'ComputerVision/BackEnd/static/asl.alpha.images/R.jpg',
-    'S': 'ComputerVision/BackEnd/static/asl.alpha.images/S.jpg',
-    'T': 'ComputerVision/BackEnd/static/asl.alpha.images/T.jpg',
-    'U': 'ComputerVision/BackEnd/static/asl.alpha.images/U.jpg',
-    'V': 'ComputerVision/BackEnd/static/asl.alpha.images/V.jpg',
-    'W': 'ComputerVision/BackEnd/static/asl.alpha.images/W.jpg',
-    'X': 'ComputerVision/BackEnd/static/asl.alpha.images/X.jpg',
-    'Y': 'ComputerVision/BackEnd/static/asl.alpha.images/Y.jpg',
-    'Z': 'ComputerVision/BackEnd/static/asl.alpha.images/Z.jpg',
+    'A': 'A.jpg',
+    'A': 'A.jpg',
+    'B': 'B.jpg',
+    'C': 'C.jpg',
+    'D': 'D.jpg',
+    'E': 'E.png',
+    'F': 'F.jpg',
+    'G': 'G.jpg',
+    'H': 'H.jpg',
+    'I': 'I.jpg',
+    'J': 'J.jpg',
+    'K': 'K.jpg',
+    'L': 'L.jpg',
+    'M': 'M.jpg',
+    'N': 'N.jpg',
+    'O': 'O.jpg',
+    'P': 'P.jpg',
+    'Q': 'Q.jpg',
+    'R': 'R.jpg',
+    'S': 'S.jpg',
+    'T': 'T.jpg',
+    'U': 'U.jpg',
+    'V': 'V.jpg',
+    'W': 'W.jpg',
+    'X': 'X.jpg',
+    'Y': 'Y.jpg',
+    'Z': 'Z.jpg',
 }
 
 
@@ -177,21 +178,16 @@ def home():
 def text_to_asl():
     if request.method == 'POST':
         message = request.form['message']
-        asl_lists = textToList(message)
-        
-        return render_template('text_to_asl.html', asl_lists=asl_lists)
-    app = Flask(__name__, static_folder='static')
-    print(app)
+        image_lists = textToList(message)
+        return render_template('text_to_asl.html', image_lists=image_lists)
+
     return render_template('text_to_asl.html')
-
-
-
 
 def textToList(message):
     translated_images = []
     for word in message.split():
-        asl_images = [asl_mapping.get(letter.upper()) for letter in word]
-        translated_images.extend(asl_images)
+        image_files = [asl_mapping.get(letter.upper()) for letter in word]
+        translated_images.extend(image_files)
     return translated_images
 
 if __name__ == '__main__':
