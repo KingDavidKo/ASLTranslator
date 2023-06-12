@@ -1,3 +1,42 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 20px;
+}
+
+h1 {
+    margin: 0;
+}
+
+main {
+    padding: 40px;
+    text-align: center;
+}
+
+p {
+    font-size: 18px;
+    margin-bottom: 20px;
+}
+
+div {
+    margin-top: 30px;
+}
+
+a {
+    text-decoration: none;
+    color: #337ab7;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
 .container {
     max-width: 800px;
     margin: 0 auto;
@@ -32,20 +71,11 @@ input[type="text"] {
 button {
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #337ab7;
+    background-color: #333;
     color: #fff;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-}
-
-a {
-    color: #337ab7;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
 }
 
 .image-box {
@@ -58,6 +88,7 @@ a:hover {
     max-width: 400px;
     margin: 10px;
 }
+
 .output-textbox {
     width: 200px;
     height: 100px;
@@ -66,12 +97,13 @@ a:hover {
     border-radius: 5px;
     font-family: Arial, sans-serif;
     font-size: 18px;
-    resize: vertical; /* Allow vertical resizing of the textbox */
-    text-align: center; /* Center-align the text */
+    resize: vertical;
+    text-align: center;
     display: flex;
     justify-content: center;
     align-items: center;
 }
+
 .text-box {
     width: 200px;
     height: 100px;
@@ -80,5 +112,12 @@ a:hover {
     border-radius: 5px;
     font-family: Arial, sans-serif;
     font-size: 18px;
-    text-align: center; /* Center-align the text */
+    text-align: center;
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    padding: 10px;
+    text-align: center;
 }

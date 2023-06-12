@@ -181,8 +181,6 @@ def slideshow():
     global asl_lists
     return render_template('slideshow.html', asl_lists=asl_lists) 
 
-# FIX THE PATHWAY
-
 def textToList(message):
     translated_images = []
     for word in message.split():
