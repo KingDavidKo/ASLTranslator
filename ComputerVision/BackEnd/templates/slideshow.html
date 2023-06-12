@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ASL Slideshow</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="container">
+        <h2>ASL Slideshow</h2>
+
+        <div class="slideshow-container">
+            {% for image in asl_lists %}
+                <div class="slide">
+                    <img src="{{ url_for('static', filename=image) }}" alt="{{ image }}">
+                </div>
+            {% endfor %}
+        </div>
+
+        <script>
+            var slideIndex = 0;
+            showSlides();
+
+            function showSlides() {
+                var slides = document.getElementsByClassName("slide");
+                for (var i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                slideIndex++;
+                if (slideIndex > slides.length) {
+                    slideIndex = 1;
+                }
+                slides[slideIndex - 1].style.display = "block";
+                setTimeout(showSlides, 2000); // Change slide every 2 seconds
+            }
+        </script>
+
+        <a href="{{ url_for('home') }}">Back to Main</a>
+    </div>
+</body>
+</html>

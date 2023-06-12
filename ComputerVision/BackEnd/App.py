@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, Response
+from flask import Flask, render_template, request, Response,jsonify
 import pickle
 import os
 import cv2
@@ -98,10 +98,13 @@ def gen_frames():  # generate frame by frame from camera
                 predicted_character1 = labels_dict1[int(prediction1[0])]
                 percentage = list(model1.predict_proba([data_aux])[0])
                 percentage = max(percentage)*100
-                if percentage > 80:
+                if percentage > 60:
                     global message1
-                    message1 +=predicted_character1
-                    time.sleep(1)
+                    if message1:
+                        if message1[-1] != predicted_character1:
+                            message1 +=predicted_character1
+                    else:
+                        message1 += predicted_character1
                     
                 
 
@@ -120,6 +123,10 @@ def gen_frames():  # generate frame by frame from camera
             else:
                 cv2.putText(frame, 'One Hand Only Please', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2,
                         cv2.LINE_AA)
+        else:
+            if message1:
+                if message1[-1] != ' ':
+                    message1+= ' '
         #cv2.imshow('frame', frame)
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
@@ -134,60 +141,53 @@ def video_feed():
 
 @app.route('/asl_to_text')
 def asl_to_text():
-    print(message1)
-    message = message1
-    return render_template('asl_to_text.html',message=message)
+    return render_template('asl_to_text.html')
 
-asl_mapping = {
-    'A': 'A.jpg',
-    'A': 'A.jpg',
-    'B': 'B.jpg',
-    'C': 'C.jpg',
-    'D': 'D.jpg',
-    'E': 'E.png',
-    'F': 'F.jpg',
-    'G': 'G.jpg',
-    'H': 'H.jpg',
-    'I': 'I.jpg',
-    'J': 'J.jpg',
-    'K': 'K.jpg',
-    'L': 'L.jpg',
-    'M': 'M.jpg',
-    'N': 'N.jpg',
-    'O': 'O.jpg',
-    'P': 'P.jpg',
-    'Q': 'Q.jpg',
-    'R': 'R.jpg',
-    'S': 'S.jpg',
-    'T': 'T.jpg',
-    'U': 'U.jpg',
-    'V': 'V.jpg',
-    'W': 'W.jpg',
-    'X': 'X.jpg',
-    'Y': 'Y.jpg',
-    'Z': 'Z.jpg',
-}
+@app.route('/get_dynamic_text')
+def get_dynamic_text():
+    # Logic to fetch the dynamic text from a data source
+    global message1
 
-
+    return message1
+@app.route('/refresh_component')
+def refresh_component():
+    global message1
+    return message1
+@app.route('/reset_variable', methods=['POST'])
+def reset_variable():
+    global message1
+    message1 = ""  # Reset the variable
+    return '', 204
 
 @app.route('/')
 def home():
     return render_template('index.html')
 
+asl_lists = []
 @app.route('/text_to_asl', methods=['GET', 'POST'])
 def text_to_asl():
+    global asl_lists
+    asl_lists = []
     if request.method == 'POST':
         message = request.form['message']
-        image_lists = textToList(message)
-        return render_template('text_to_asl.html', image_lists=image_lists)
-
+        asl_lists = textToList(message)
+        
+        return render_template('text_to_asl.html', asl_lists=asl_lists)
     return render_template('text_to_asl.html')
+
+
+@app.route('/slideshow')
+def slideshow():
+    global asl_lists
+    return render_template('slideshow.html', asl_lists=asl_lists) 
+
+# FIX THE PATHWAY
 
 def textToList(message):
     translated_images = []
     for word in message.split():
-        image_files = [asl_mapping.get(letter.upper()) for letter in word]
-        translated_images.extend(image_files)
+        asl_images = [asl_mapping.get(letter.upper()) for letter in word]
+        translated_images.extend(asl_images)
     return translated_images
 
 if __name__ == '__main__':
