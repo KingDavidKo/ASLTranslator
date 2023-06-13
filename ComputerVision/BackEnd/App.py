@@ -181,7 +181,7 @@ def text_to_asl():
     if request.method == 'POST':
         message = request.form['message']
         asl_lists = textToList(message)
-        
+
         return render_template('text_to_asl.html', asl_lists=asl_lists)
     return render_template('text_to_asl.html')
 
