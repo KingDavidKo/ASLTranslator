@@ -1,5 +1,7 @@
 body {
-    font-family: Arial, sans-serif;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
     margin: 0;
     padding: 0;
 }
@@ -15,6 +17,7 @@ h1 {
 }
 
 main {
+    flex-grow: 1;
     padding: 40px;
     text-align: center;
 }
