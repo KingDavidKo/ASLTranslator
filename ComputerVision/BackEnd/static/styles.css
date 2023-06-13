@@ -124,3 +124,19 @@ footer {
     padding: 10px;
     text-align: center;
 }
+
+.image-box {
+    margin-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .image-box img {
+    max-width: 100%;
+    height: auto;
+    margin: 10px;
+    max-height: 200px; /* Adjust the height as per your preference */
+  }
+  
