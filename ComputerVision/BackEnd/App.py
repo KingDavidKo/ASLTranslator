@@ -97,7 +97,7 @@ def gen_frames():  # generate frame by frame from camera
                 prediction1 = model1.predict([np.asarray(data_aux)])
                 predicted_character1 = labels_dict1[int(prediction1[0])]
                 percentage = list(model1.predict_proba([data_aux])[0])
-                percentage = max(percentage)*100
+                percentage = round(max(percentage)*100)
                 if percentage > 60:
                     global message1
                     if message1:
@@ -154,10 +154,20 @@ def refresh_component():
     global message1
     return message1
 @app.route('/reset_variable', methods=['POST'])
-def reset_variable():
+def reset_variable(x=1):
+    if x==1:
+        global message1
+        message1 = ""  # Reset the variable
+    if x==0:
+        message1 = message1[:-1]
+    print(x)
+    return message1, 204
+
+@app.route('/undo_variable', methods=['POST'])
+def undo_variable():
     global message1
-    message1 = ""  # Reset the variable
-    return '', 204
+    message1 = message1[:-1]
+    return message1, 204
 
 @app.route('/')
 def home():

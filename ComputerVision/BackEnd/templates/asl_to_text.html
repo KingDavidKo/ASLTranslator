@@ -44,9 +44,22 @@
                         }
                     });
                 }
+                function undoVariable() {
+                    $.ajax({
+                        url: '/undo_variable',
+                        type: 'POST',
+                        success: function() {
+                            console.log("Variable reset successfully.");
+                        }
+                    });
+                }
             </script>           
             <div class = "image-box">
+                <div>
                 <textarea id="message1" class="output-textbox" readonly></textarea>
+                <button onclick="resetVariable()">Reset</button>
+                <button onclick="undoVariable()">Undo</button>
+                </div>
                 <img src="{{ url_for('static', filename='asl.alpha.images/Alphabet.jpg') }}" class="image-box" alt="Image">
             </div>
         </div>
