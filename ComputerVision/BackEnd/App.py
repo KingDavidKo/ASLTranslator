@@ -40,7 +40,12 @@ asl_mapping = {
 model_dict1 = pickle.load(open('./model1.p', 'rb'))
 model1 = model_dict1['model1']
 message1 = ''
-def gen_frames():  # generate frame by frame from camera
+def gen_frames():
+    '''
+    (None) -> (Object)
+    Generate frame by frame from the camera
+
+    '''
     
     cap = cv2.VideoCapture(0)
 
@@ -102,7 +107,7 @@ def gen_frames():  # generate frame by frame from camera
                     global message1
                     if message1:
                         if message1[-1] != predicted_character1:
-                            message1 +=predicted_character1
+                            message1 += predicted_character1
                     else:
                         message1 += predicted_character1
                     
@@ -123,10 +128,7 @@ def gen_frames():  # generate frame by frame from camera
             else:
                 cv2.putText(frame, 'One Hand Only Please', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2,
                         cv2.LINE_AA)
-        else:
-            if message1:
-                if message1[-1] != ' ':
-                    message1+= ' '
+       
         #cv2.imshow('frame', frame)
         ret, buffer = cv2.imencode('.jpg', frame)
         frame = buffer.tobytes()
@@ -136,46 +138,67 @@ def gen_frames():  # generate frame by frame from camera
 
 @app.route('/video_feed')
 def video_feed():
+    '''
+    (Object) -> (Object)
+    Returns to response and frames to HTML web server
+    '''
 
     return Response(gen_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 @app.route('/asl_to_text')
 def asl_to_text():
+    '''
+    (None) -> (Object)
+    Returns translation to HTML web server
+    '''
     return render_template('asl_to_text.html')
 
 @app.route('/get_dynamic_text')
 def get_dynamic_text():
-    # Logic to fetch the dynamic text from a data source
+    '''
+    (None) -> (str)
+    Returns string with updated translation
+    '''
     global message1
 
     return message1
-@app.route('/refresh_component')
-def refresh_component():
-    global message1
-    return message1
+
 @app.route('/reset_variable', methods=['POST'])
-def reset_variable(x=1):
-    if x==1:
-        global message1
-        message1 = ""  # Reset the variable
-    if x==0:
-        message1 = message1[:-1]
-    print(x)
+def reset_variable():
+    '''
+    (None) -> (Str, Int)
+    Returns the message either reseted along with a 204 message if it is alright
+    '''
+
+    global message1
+    message1 = "" 
     return message1, 204
 
 @app.route('/undo_variable', methods=['POST'])
 def undo_variable():
+    '''
+    (None) -> (Str, Int)
+    Returns the message with the last character removed along with a 204 message if it is alright
+    '''
     global message1
     message1 = message1[:-1]
     return message1, 204
 
 @app.route('/')
 def home():
+    '''
+    (None) -> (Object)
+    Returns and displays the home page
+    '''
     return render_template('index.html')
 
 asl_lists = []
 @app.route('/text_to_asl', methods=['GET', 'POST'])
 def text_to_asl():
+    '''
+    (None) -> (Lst)
+    Returns a lists with all the letter images from the message prompt
+    '''
     global asl_lists
     asl_lists = []
     if request.method == 'POST':
@@ -188,10 +211,18 @@ def text_to_asl():
 
 @app.route('/slideshow')
 def slideshow():
+    '''
+    (None) -> (Object)
+    Returns the image list to the slideshow HTML doc
+    '''
     global asl_lists
     return render_template('slideshow.html', asl_lists=asl_lists) 
 
 def textToList(message):
+    '''
+    (Str) -> (Lst)
+    Returns and translates each individual letter from the message into its corresponding mapped image
+    '''
     translated_images = []
     for word in message.split():
         asl_images = [asl_mapping.get(letter.upper()) for letter in word]

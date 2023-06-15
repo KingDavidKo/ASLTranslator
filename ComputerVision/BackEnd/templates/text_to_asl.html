@@ -8,7 +8,7 @@
     <div class="container">
         <h2>Text to ASL</h2>
 
-        <form action="{{ url_for('text_to_asl') }}" method="POST">
+        <form id = "messageForm" action="{{ url_for('text_to_asl') }}" method="POST">
             <label for="message">Enter a message:</label>
             <input type="text" id="message" name="message" required>
             <button type="submit">Translate to ASL</button>
