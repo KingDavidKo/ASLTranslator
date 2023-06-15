@@ -82,21 +82,7 @@ while True:
         else:
             cv2.putText(frame, 'One Hand Only Please', (100, 75), cv2.FONT_HERSHEY_SIMPLEX, 1.0, (0, 0, 255), 2,
                     cv2.LINE_AA)
-            '''
-            x1 = int(min(x_) * W) - 10
-            y1 = int(min(y_) * H) - 10
-
-            x2 = int(max(x_) * W) - 10
-            y2 = int(max(y_) * H) - 10
-
-            prediction2 = model2.predict([np.asarray(data_aux)])
-
-            predicted_character2 = labels_dict2[int(prediction2[0])]
-
-            cv2.rectangle(frame, (x1, y1), (x2, y2), (0, 0, 0), 4)
-            cv2.putText(frame, predicted_character2, (x1, y1 - 10), cv2.FONT_HERSHEY_SIMPLEX, 1.3, (0, 0, 0), 3,
-                        cv2.LINE_AA)
-                        '''
+            
     if cv2.waitKey(25) == ord('q'):
         break
     cv2.putText(frame, 'Press Q to exit', (W-175, 25), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0, 0, 0), 2,

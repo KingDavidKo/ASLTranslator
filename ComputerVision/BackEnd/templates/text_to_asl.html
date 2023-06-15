@@ -13,9 +13,6 @@
             <input type="text" id="message" name="message" required>
             <button type="submit">Translate to ASL</button>
         </form>
-
-        <a href="{{ url_for('home') }}">Back to Main</a>
-
         {% if asl_lists %}
         <div class="image-box">
             {% for image in asl_lists %}
@@ -25,6 +22,7 @@
         <br>
         <a href="{{ url_for('slideshow') }}"><button>View Slideshow</button></a>
         {% endif %}
+        <a href="{{ url_for('home') }}">Back to Main</a>
     </div>
 </body>
 </html>

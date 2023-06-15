@@ -13,7 +13,7 @@ asl_mapping = {
     'B': 'asl.alpha.images/B.jpg',
     'C': 'asl.alpha.images/C.jpg',
     'D': 'asl.alpha.images/D.jpg',
-    'E': 'asl.alpha.images/E.png',
+    'E': 'asl.alpha.images/E.jpg',
     'F': 'asl.alpha.images/F.jpg',
     'G': 'asl.alpha.images/G.jpg',
     'H': 'asl.alpha.images/H.jpg',
